@@ -1,6 +1,6 @@
 <?php
 
-include("/var/www/mysql-config.php");
+include("/var/www/mysql-config2.php");
 
-$mydatabase = "conglomerate";
+$mydatabase = "mytower";
 $table_name = "leaderboard";
