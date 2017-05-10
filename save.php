@@ -15,10 +15,10 @@ $connection = new PDO(
 );
     
 // create record if not exists
-$sql1 = "INSERT INTO $table_name (PlayFabId, TowerLevel, Country, SortRank)
-    VALUES (:PlayFabId, :TowerLevel, :Country, :SortRank)
+$sql1 = "INSERT INTO $table_name (PlayFabId, TowerLevel, Country, SortRank, LastUpdate)
+    VALUES (:PlayFabId, :TowerLevel, :Country, :SortRank, NOW())
     ON DUPLICATE KEY UPDATE
-    TowerLevel = :TowerLevel2, Country = :Country2, SortRank = :SortRank2
+    TowerLevel = :TowerLevel2, Country = :Country2, SortRank = :SortRank2, LastUpdate = NOW()
 ";
 $statement1 = $connection->prepare($sql1);
 $statement1->bindParam(":PlayFabId", $data['PlayFabId']);
