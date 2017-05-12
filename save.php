@@ -2,7 +2,7 @@
 
 include("config.php");
 
-$input = file_get_contents("php://input");
+//$input = file_get_contents("php://input");
 $json = json_decode($input);
 
 $data['PlayFabId'] = isset($json->PlayFabId) ? $json->PlayFabId : "";
@@ -35,6 +35,6 @@ $data['affected_row'] = $statement1->rowCount();
 $data['error'] = 0;
 $data['message'] = 'Success';
 
-header('Content-Type: application/json');
-echo json_encode($data);   
-//return $data;
+//header('Content-Type: application/json');
+//echo json_encode($data);   
+return $data;

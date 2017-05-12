@@ -23,9 +23,9 @@ function validate_post()
     if ($_SERVER["REQUEST_METHOD"] != 'POST') {
         show_error(200, "405 Method Not Allowed", "Invalid Method");
     }
-    if (!isset($headers['Content-Type']) || $headers['Content-Type'] != 'application/json') {
-        show_error(200, "400 Bad Request", "Invalid Content Type");
-    }
+//    if (!isset($headers['Content-Type']) || $headers['Content-Type'] != 'application/json') {
+//        show_error(200, "400 Bad Request", "Invalid Content Type");
+//    }
 }
 
 function validate_get()
@@ -79,10 +79,11 @@ try {
         
 $end_time = microtime(true);
 
+$service_result['headers'] = $headers;
 $service_result['execution_time'] = number_format($end_time - $start_time, 5);
 $service_result['memory_usage'] = memory_get_usage(true);
 
-http_response_code(200);
+//http_response_code(200);
 header('Content-Type: application/json');
 
 echo json_encode($service_result);
