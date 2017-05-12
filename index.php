@@ -54,6 +54,7 @@ $query_string = isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
 $params = explode("/", $query_string);
 
 $service = isset($params[0]) ? $params[0] : "";
+echo $service;
 
 // validate service ...
 switch ($service) {
