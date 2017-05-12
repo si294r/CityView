@@ -23,9 +23,9 @@ function validate_post()
     if ($_SERVER["REQUEST_METHOD"] != 'POST') {
         show_error(405, "405 Method Not Allowed", "Invalid Method");
     }
-//    if (!isset($headers['Content-Type']) || $headers['Content-Type'] != 'application/json') {
-//        show_error(400, "400 Bad Request", "Invalid Content Type");
-//    }
+    if (!isset($headers['Content-Type']) || strpos($headers['Content-Type'], 'application/json')  !== 0) {
+        show_error(400, "400 Bad Request", "Invalid Content Type");
+    }
 }
 
 function validate_get()
