@@ -41,7 +41,7 @@ if (function_exists("getallheaders")) {
     $headers['x-api-key'] = isset($_SERVER["HTTP_X_API_KEY"]) ? $_SERVER["HTTP_X_API_KEY"] : "";
     $headers['Content-Type'] = isset($_SERVER["CONTENT_TYPE"]) ? $_SERVER["CONTENT_TYPE"] : "";
 }
-//var_dump($headers);
+var_dump($headers);
 if (!isset($headers['x-api-key']) || $headers['x-api-key'] != X_API_KEY_TOKEN) {
     show_error(200, "401 Unauthorized", "Invalid Token");
 }
