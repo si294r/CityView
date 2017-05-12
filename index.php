@@ -43,7 +43,7 @@ if (function_exists("getallheaders")) {
 }
 //var_dump($headers);
 if (!isset($headers['x-api-key']) || $headers['x-api-key'] != X_API_KEY_TOKEN) {
-    show_error(401, "401 Unauthorized", "Invalid Token");
+    show_error(400, "401 Unauthorized", "Invalid Token");
 }
 
 //print_r($headers);
