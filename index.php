@@ -21,17 +21,17 @@ function validate_post()
     global $headers;
     
     if ($_SERVER["REQUEST_METHOD"] != 'POST') {
-        show_error(200, "405 Method Not Allowed", "Invalid Method");
+        show_error(405, "405 Method Not Allowed", "Invalid Method");
     }
 //    if (!isset($headers['Content-Type']) || $headers['Content-Type'] != 'application/json') {
-//        show_error(200, "400 Bad Request", "Invalid Content Type");
+//        show_error(400, "400 Bad Request", "Invalid Content Type");
 //    }
 }
 
 function validate_get()
 {
     if ($_SERVER["REQUEST_METHOD"] != 'GET') {
-        show_error(200, "405 Method Not Allowed", "Invalid Method");
+        show_error(405, "405 Method Not Allowed", "Invalid Method");
     }
 }
 
@@ -42,9 +42,8 @@ if (function_exists("getallheaders")) {
     $headers['Content-Type'] = isset($_SERVER["CONTENT_TYPE"]) ? $_SERVER["CONTENT_TYPE"] : "";
 }
 //var_dump($headers);
-//show_error(200, $headers['Content-Type'], $headers['x-api-key']);
 if (!isset($headers['x-api-key']) || $headers['x-api-key'] != X_API_KEY_TOKEN) {
-    show_error(200, "401 Unauthorized", "Invalid Token");
+    show_error(401, "401 Unauthorized", "Invalid Token");
 }
 
 //print_r($headers);
@@ -67,14 +66,14 @@ switch ($service) {
         $input = file_get_contents("php://input");
         break;
     default :
-        show_error(200, "503 Service Unavailable", "Invalid Service");
+        show_error(503, "503 Service Unavailable", "Invalid Service");
 }
 
 // valid service goes here ... then try 'execute service' ...
 try {
     $service_result = include($service.'.php');
 } catch (Exception $ex) {
-    show_error(200, "500 Internal Server Error", $ex->getMessage());
+    show_error(500, "500 Internal Server Error", $ex->getMessage());
 }
         
 $end_time = microtime(true);
