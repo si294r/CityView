@@ -82,6 +82,7 @@ $end_time = microtime(true);
 $service_result['execution_time'] = number_format($end_time - $start_time, 5);
 $service_result['memory_usage'] = memory_get_usage(true);
 
+http_response_code(200);
 header('Content-Type: application/json');
 
 echo json_encode($service_result);
