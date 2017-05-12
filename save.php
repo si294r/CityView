@@ -36,4 +36,5 @@ $data['error'] = 0;
 $data['message'] = 'Success';
 
 header('Content-Type: application/json');
-return $data;
+echo json_encode($data);   
+//return $data;
