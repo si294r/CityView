@@ -58,9 +58,10 @@ $service = isset($params[0]) ? $params[0] : "";
 
 // validate service ...
 switch ($service) {
+//    case 'leaderboard' :
+//        validate_get();
+//        break;
     case 'leaderboard' :
-        validate_get();
-        break;
     case 'save' :
         validate_post();
         $input = file_get_contents("php://input");
