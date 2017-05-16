@@ -14,10 +14,13 @@ $connection = new PDO(
 $sql1 = "select * from mytower.leaderboard where PlayFabId = :PlayFabId1
 union
 (select * from mytower.leaderboard_cache 
-where TowerLevel < (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId2) order by TowerLevel desc limit $Limit)
+where TowerLevel < (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId2) 
+and Country = 'global'
+order by TowerLevel desc limit $Limit)
 union
 (select * from mytower.leaderboard_cache 
 where TowerLevel >= (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId3)
+and Country = 'global'
 and PlayFabId <> :PlayFabId4 order by TowerLevel asc limit $Limit)
 order by TowerLevel
 ";
