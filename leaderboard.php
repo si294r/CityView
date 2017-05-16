@@ -3,9 +3,9 @@
 include("config.php");
 
 $json = json_decode($input);
-$PlayFabId = $json->PlayFabId;
-$Limit = $json->Limit;
-$Country = $json->Country;
+$PlayFabId = isset($json->PlayFabId) ? $json->PlayFabId : "";
+$Limit = isset($json->Limit) ? $json->Limit : 20;
+$Country = isset($json->Country) ? $json->Country : "";
 
 $connection = new PDO(
     "mysql:dbname=$mydatabase;host=$myhost;port=$myport", $myuser, $mypass
