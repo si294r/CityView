@@ -107,14 +107,14 @@ $rows1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
 $row_global = json_decode(file_get_contents("cache/global.tmp"));
 $row_region = json_decode(file_get_contents("cache/$Country.tmp"));
 
-$row_global[] = $rows1[0];
-$row_region[] = $rows1[0];
+$row_global[] = json_decode(json_encode($rows1[0]));
+$row_region[] = json_decode(json_encode($rows1[0]));
 
 function cmp_row($a, $b) {
-    if ($a['TowerLevel'] == $b['TowerLevel']) {
+    if ($a->TowerLevel == $b->TowerLevel) {
         return 0;
     }
-    return ($a['TowerLevel'] < $b['TowerLevel']) ? -1 : 1;
+    return ($a->TowerLevel < $b->TowerLevel) ? -1 : 1;
 }
 
 uasort($row_global, 'cmp_row');
