@@ -110,17 +110,23 @@ $statement1->execute(
         );
 $rows1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
 
-$row_global = json_decode(file_get_contents(get_file_cache("global")));
-$row_region = json_decode(file_get_contents(get_file_cache($Country)));
+$row_global = json_decode(file_get_contents(get_file_cache("global")), true);
+$row_region = json_decode(file_get_contents(get_file_cache($Country)), true);
 
-$row_global[] = json_decode(json_encode($rows1[0]));
-$row_region[] = json_decode(json_encode($rows1[0]));
+if (array_search($PlayFabId, array_column($row_region, "PlayFabId")) === FALSE) {
+    $row_region[] = $rows1[0];
+}
+
+if (array_search($PlayFabId, array_column($row_global, "PlayFabId")) === FALSE) {
+    $rows1[0]['Country'] = "global";
+    $row_global[] = $rows1[0];
+}
 
 function cmp_row($a, $b) {
-    if (intval($a->TowerLevel) == intval($b->TowerLevel)) {
+    if (intval($a['TowerLevel']) == intval($b['TowerLevel'])) {
         return 0;
     }
-    return (intval($a->TowerLevel) < intval($b->TowerLevel)) ? -1 : 1;
+    return (intval($a['TowerLevel']) < intval($b['TowerLevel'])) ? -1 : 1;
 }
 
 usort($row_global, 'cmp_row');
@@ -130,7 +136,7 @@ function limit_around_user($rows) {
     global $PlayFabId, $Limit;
     $pos = 0;
     foreach ($rows as $k=>$v) {
-        if ($v->PlayFabId == $PlayFabId) {
+        if ($v['PlayFabId'] == $PlayFabId) {
             $pos = $k;
         } 
     }
