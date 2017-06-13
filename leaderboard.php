@@ -117,14 +117,14 @@ $row_global[] = json_decode(json_encode($rows1[0]));
 $row_region[] = json_decode(json_encode($rows1[0]));
 
 function cmp_row($a, $b) {
-    if ($a->TowerLevel == $b->TowerLevel) {
+    if (intval($a->TowerLevel) == intval($b->TowerLevel)) {
         return 0;
     }
-    return ($a->TowerLevel < $b->TowerLevel) ? -1 : 1;
+    return (intval($a->TowerLevel) < intval($b->TowerLevel)) ? -1 : 1;
 }
 
-uasort($row_global, 'cmp_row');
-uasort($row_region, 'cmp_row');
+uksort($row_global, 'cmp_row');
+uksort($row_region, 'cmp_row');
 
 function limit_around_user($rows) {
     global $PlayFabId, $Limit;
