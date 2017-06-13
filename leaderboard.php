@@ -6,11 +6,52 @@ $json = json_decode($input);
 $PlayFabId = isset($json->PlayFabId) ? $json->PlayFabId : "";
 $Limit = isset($json->Limit) ? $json->Limit : 20;
 $Country = isset($json->Country) ? $json->Country : "";
+$RenewCache = isset($json->RenewCache) ? $json->RenewCache : "";
 
 $connection = new PDO(
     "mysql:dbname=$mydatabase;host=$myhost;port=$myport", $myuser, $mypass
 );
 
+if ($RenewCache == "1") {
+    $CountryCodes = ["AD", "AE", "AF", "AR", "AS", "AU", "AW", "AX", "AZ", "BB", "BD", "BE", "BH", "BN", "BR", "BS", "BY", "CA", "CH", "CL", "CN", "GB", "global", "ID", "US"];
+    foreach ($CountryCodes as $v) {
+        if ($v == "global") {
+            $sql = "
+SELECT PlayFabId, TowerLevel, 'global' Country, SortRank, LastUpdate 
+FROM
+(
+    SELECT 
+	*,
+    ROW_NUMBER() OVER (PARTITION BY TowerLevel) as row_number
+    FROM leaderboard
+) t
+WHERE row_number <= 2 
+ORDER BY TowerLevel;
+            ";            
+        } else {
+            $sql = "
+SELECT PlayFabId, TowerLevel, Country, SortRank, LastUpdate 
+FROM
+(
+    SELECT 
+	*,
+    ROW_NUMBER() OVER (PARTITION BY TowerLevel) as row_number
+    FROM leaderboard WHERE Country = '$v'
+) t
+WHERE row_number <= 2 
+ORDER BY TowerLevel;
+            ";            
+        }
+        
+        $statement = $connection->prepare($sql);
+        $statement->execute();
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        file_put_contents("cache/".$v.".tmp", json_encode($rows));
+    }
+}
+
+/*
 $sql1 = "select * from leaderboard where PlayFabId = :PlayFabId1
 union
 (select * from leaderboard_cache 
@@ -54,6 +95,29 @@ $statement2->execute(
             ':Country1' => $Country, ':Country2' => $Country)
         );
 $rows2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
+*/
+
+$sql1 = "select * from leaderboard where PlayFabId = :PlayFabId1";
+$statement1->execute(
+        array(':PlayFabId1' => $PlayFabId)
+        );
+$rows1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+
+$row_global = json_decode(file_get_contents("cache/global.tmp"));
+$row_region = json_decode(file_get_contents("cache/$Country.tmp"));
+
+$row_global[] = $rows1;
+$row_region[] = $rows1;
+
+function cmp_row($a, $b) {
+    if ($a['TowerLevel'] == $b['TowerLevel']) {
+        return 0;
+    }
+    return ($a['TowerLevel'] < $b['TowerLevel']) ? -1 : 1;
+}
+
+uasort($row_global, 'cmp_row');
+uasort($row_region, 'cmp_row');
 
 function limit_around_user($rows) {
     global $PlayFabId, $Limit;
@@ -90,7 +154,7 @@ function limit_around_user($rows) {
 $data["PlayFabId"] = $PlayFabId;
 $data["Country"] = $Country;
 $data["Limit"] = $Limit;
-$data["global"] = limit_around_user($rows1);
-$data["region"] = limit_around_user($rows2);
+$data["global"] = limit_around_user($row_global);
+$data["region"] = limit_around_user($row_region);
 
 return $data;
