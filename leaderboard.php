@@ -12,6 +12,12 @@ $connection = new PDO(
     "mysql:dbname=$mydatabase;host=$myhost;port=$myport", $myuser, $mypass
 );
 
+function get_file_cache($param) {
+    global $IS_DEVELOPMENT;
+    return $IS_DEVELOPMENT ? "cache/".$param.".tmpdev" : "cache/".$param.".tmp";
+}
+
+
 if ($RenewCache == "1") {
     $CountryCodes = ["AD", "AE", "AF", "AR", "AS", "AU", "AW", "AX", "AZ", "BB", "BD", "BE", "BH", "BN", "BR", "BS", "BY", "CA", "CH", "CL", "CN", "GB", "global", "ID", "US"];
     foreach ($CountryCodes as $v) {
@@ -47,7 +53,7 @@ ORDER BY TowerLevel;
         $statement->execute();
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
         
-        file_put_contents("cache/".$v.".tmp", json_encode($rows));
+        file_put_contents(get_file_cache($v), json_encode($rows));
     }
 }
 
@@ -104,8 +110,8 @@ $statement1->execute(
         );
 $rows1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
 
-$row_global = json_decode(file_get_contents("cache/global.tmp"));
-$row_region = json_decode(file_get_contents("cache/$Country.tmp"));
+$row_global = json_decode(file_get_contents(get_file_cache("global")));
+$row_region = json_decode(file_get_contents(get_file_cache($Country)));
 
 $row_global[] = json_decode(json_encode($rows1[0]));
 $row_region[] = json_decode(json_encode($rows1[0]));
