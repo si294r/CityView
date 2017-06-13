@@ -19,7 +19,11 @@ function get_file_cache($param) {
 
 
 if ($RenewCache == "1") {
-    $CountryCodes = ["AD", "AE", "AF", "AR", "AS", "AU", "AW", "AX", "AZ", "BB", "BD", "BE", "BH", "BN", "BR", "BS", "BY", "CA", "CH", "CL", "CN", "GB", "global", "ID", "US"];
+    if ($IS_DEVELOPMENT) {
+        $CountryCodes = ["AD", "AE", "AF", "AR", "AS", "AU", "AW", "AX", "AZ", "BB", "BD", "BE", "BH", "BN", "BR", "BS", "BY", "CA", "CH", "CL", "CN", "GB", "global", "ID", "US"];
+    } else {
+        $CountryCodes = ["AD","AE","AF","AR","AS","AU","AW","AX","AZ","BB","BD","BE","BH","BN","BR","BS","BY","CA","CH", "CL","CN","CO","CR","CW","DE","DK","DO","EC","EG","ES","FK","FR","GB","GE","GL","global","GU","HK","HN","HU","ID","IE", "IL","IN","IQ","IS","IT","JM","JO","JP","KH","KR","KW","KZ","LA","LB","LK","LT","LU","LY","MH","MM","MN","MX","MY","NL", "NO","NZ","OT","PA","PE","PH","PK","PL","PN","PR","PY","QA","RO","RS","RU","SA","SG","SI","SV","TH","TN","TR","TT","TW", "UA","UM","US","UY","VE","VI","VN","YE","ZA","ZW"];
+    }
     foreach ($CountryCodes as $v) {
         if ($v == "global") {
             $sql = "
