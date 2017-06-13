@@ -107,8 +107,8 @@ $rows1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
 $row_global = json_decode(file_get_contents("cache/global.tmp"));
 $row_region = json_decode(file_get_contents("cache/$Country.tmp"));
 
-$row_global[] = $rows1;
-$row_region[] = $rows1;
+$row_global[] = $rows1[0];
+$row_region[] = $rows1[0];
 
 function cmp_row($a, $b) {
     if ($a['TowerLevel'] == $b['TowerLevel']) {
