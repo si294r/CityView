@@ -124,7 +124,7 @@ function limit_around_user($rows) {
     global $PlayFabId, $Limit;
     $pos = 0;
     foreach ($rows as $k=>$v) {
-        if ($v['PlayFabId'] == $PlayFabId) {
+        if ($v->PlayFabId == $PlayFabId) {
             $pos = $k;
         } 
     }
