@@ -2,7 +2,7 @@
 
 $start_time = microtime(true);
 
-define('IS_DEVELOPMENT', FALSE);
+$IS_DEVELOPMENT = FALSE;
 require 'token.php';
 
 //show_error(503, "503 Service Unavailable", "We are currently under maintenance.");
@@ -54,6 +54,10 @@ $query_string = isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
 $params = explode("/", $query_string);
 
 $service = isset($params[0]) ? $params[0] : "";
+if (strpos($service, "-dev")) {
+    $service = str_replace("-dev", "", $service);
+    $IS_DEVELOPMENT = true;
+}
 //var_dump($params);
 
 // validate service ...

@@ -11,29 +11,29 @@ $connection = new PDO(
     "mysql:dbname=$mydatabase;host=$myhost;port=$myport", $myuser, $mypass
 );
 
-$sql1 = "select * from mytower.leaderboard where PlayFabId = :PlayFabId1
+$sql1 = "select * from leaderboard where PlayFabId = :PlayFabId1
 union
-(select * from mytower.leaderboard_cache 
-where TowerLevel < (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId2) 
+(select * from leaderboard_cache 
+where TowerLevel < (select TowerLevel from leaderboard where PlayFabId = :PlayFabId2) 
 and Country = 'global'
 order by TowerLevel desc limit $Limit)
 union
-(select * from mytower.leaderboard_cache 
-where TowerLevel >= (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId3)
+(select * from.leaderboard_cache 
+where TowerLevel >= (select TowerLevel from leaderboard where PlayFabId = :PlayFabId3)
 and Country = 'global'
 and PlayFabId <> :PlayFabId4 order by TowerLevel asc limit $Limit)
 order by TowerLevel
 ";
 
-$sql2 = "select * from mytower.leaderboard where PlayFabId = :PlayFabId1
+$sql2 = "select * from leaderboard where PlayFabId = :PlayFabId1
 union
-(select * from mytower.leaderboard_cache 
-where TowerLevel < (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId2) 
+(select * from leaderboard_cache 
+where TowerLevel < (select TowerLevel from leaderboard where PlayFabId = :PlayFabId2) 
 and Country = :Country1
 order by TowerLevel desc limit $Limit)
 union
-(select * from mytower.leaderboard_cache 
-where TowerLevel >= (select TowerLevel from mytower.leaderboard where PlayFabId = :PlayFabId3)
+(select * from leaderboard_cache 
+where TowerLevel >= (select TowerLevel from leaderboard where PlayFabId = :PlayFabId3)
 and Country = :Country2
 and PlayFabId <> :PlayFabId4 order by TowerLevel asc limit $Limit)
 order by TowerLevel

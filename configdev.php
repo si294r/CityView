@@ -2,5 +2,5 @@
 
 include("/var/www/mysql-config2.php");
 
-$mydatabase = $IS_DEVELOPMENT ? "mytowerdev" : "mytower";
+$mydatabase = "mytowerdev";
 $table_name = "leaderboard";
