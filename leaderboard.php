@@ -123,8 +123,8 @@ function cmp_row($a, $b) {
     return (intval($a->TowerLevel) < intval($b->TowerLevel)) ? -1 : 1;
 }
 
-uksort($row_global, 'cmp_row');
-uksort($row_region, 'cmp_row');
+usort($row_global, 'cmp_row');
+usort($row_region, 'cmp_row');
 
 function limit_around_user($rows) {
     global $PlayFabId, $Limit;
