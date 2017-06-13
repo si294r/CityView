@@ -98,6 +98,7 @@ $rows2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
 */
 
 $sql1 = "select * from leaderboard where PlayFabId = :PlayFabId1";
+$statement1 = $connection->prepare($sql1);
 $statement1->execute(
         array(':PlayFabId1' => $PlayFabId)
         );
