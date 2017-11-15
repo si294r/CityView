@@ -122,12 +122,16 @@ $row_global = get_json_file_cache("global"); //json_decode(file_get_contents(get
 $row_region = get_json_file_cache($Country); //json_decode(file_get_contents(get_file_cache($Country)), true);
 
 if (array_search($PlayFabId, array_column($row_region, "PlayFabId")) === FALSE) {
-    $row_region[] = $rows1[0];
+    if (isset($rows1[0])) {
+        $row_region[] = $rows1[0];
+    }
 }
 
 if (array_search($PlayFabId, array_column($row_global, "PlayFabId")) === FALSE) {
-    $rows1[0]['Country'] = "global";
-    $row_global[] = $rows1[0];
+    if (isset($rows1[0])) {
+        $rows1[0]['Country'] = "global";
+        $row_global[] = $rows1[0];
+    }
 }
 
 function cmp_row($a, $b) {
