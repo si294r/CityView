@@ -131,6 +131,9 @@ if (array_search($PlayFabId, array_column($row_global, "PlayFabId")) === FALSE) 
 }
 
 function cmp_row($a, $b) {
+    if (!isset($a['TowerLevel']) || !isset($b['TowerLevel'])) {
+        return 0;
+    }
     if (intval($a['TowerLevel']) == intval($b['TowerLevel'])) {
         return 0;
     }
@@ -144,7 +147,7 @@ function limit_around_user($rows) {
     global $PlayFabId, $Limit;
     $pos = 0;
     foreach ($rows as $k=>$v) {
-        if ($v['PlayFabId'] == $PlayFabId) {
+        if (isset($v['PlayFabId']) && $v['PlayFabId'] == $PlayFabId) {
             $pos = $k;
         } 
     }
