@@ -17,6 +17,10 @@ function get_file_cache($param) {
     return $IS_DEVELOPMENT ? "cache/".$param.".tmpdev" : "cache/".$param.".tmp";
 }
 
+function get_json_file_cache($param) {
+    $filename = get_file_cache($param);
+    return is_file($filename) ? json_decode(file_get_contents($filename), true) : [];
+}
 
 if ($RenewCache == "1") {
     if ($IS_DEVELOPMENT) {
@@ -114,8 +118,8 @@ $statement1->execute(
         );
 $rows1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
 
-$row_global = json_decode(file_get_contents(get_file_cache("global")), true);
-$row_region = json_decode(file_get_contents(get_file_cache($Country)), true);
+$row_global = get_json_file_cache("global"); //json_decode(file_get_contents(get_file_cache("global")), true);
+$row_region = get_json_file_cache($Country); //json_decode(file_get_contents(get_file_cache($Country)), true);
 
 if (array_search($PlayFabId, array_column($row_region, "PlayFabId")) === FALSE) {
     $row_region[] = $rows1[0];
